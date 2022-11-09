@@ -18,7 +18,7 @@ services:
     build:
       context: ./docker/php
     ports:
-      - '9001:9001'
+      - '9000:9000'
     volumes:
       - ./html:/var/www/html
     depends_on:

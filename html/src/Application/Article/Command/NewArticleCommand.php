@@ -2,7 +2,8 @@
 
 namespace Blog\Application\Article\Command;
 
-use Blog\Application\CommandInterface;
+use Blog\Domain\Bus\Command\CommandInterface;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class NewArticleCommand implements CommandInterface
@@ -15,11 +16,19 @@ class NewArticleCommand implements CommandInterface
     #[Assert\Length(min: 20)]
     public readonly string $content;
 
+//    #[Assert\File(
+//        maxSize: "1M",
+//        mimeTypes: ["image/jpeg", "image/jpg"]
+//    )]
+//    public readonly File $image;
+
     public function __construct(
         string $title,
         string $content,
+//        File $image
     ){
         $this->content = $content;
         $this->title = $title;
+//        $this->image = $image;
     }
 }

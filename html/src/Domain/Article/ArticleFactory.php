@@ -2,12 +2,12 @@
 
 namespace Blog\Domain\Article;
 
-use Blog\Entity\Domain\Article;
+use Blog\Domain\Entity\Article;
 
 class ArticleFactory
 {
-    public function create(string $title, string $content): ArticleInterface
+    public function create(): ArticleInterface
     {
-        return new Article($title, $content);
+        return new Article();
     }
 }

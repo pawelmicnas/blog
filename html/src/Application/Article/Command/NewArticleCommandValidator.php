@@ -3,8 +3,8 @@
 namespace Blog\Application\Article\Command;
 
 use Blog\Application\Article\Exception\NewArticleValidationException;
-use Blog\Application\CommandInterface;
-use Blog\Application\CommandValidatorInterface;
+use Blog\Domain\Bus\Command\CommandInterface;
+use Blog\Domain\Bus\Command\CommandValidatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class NewArticleCommandValidator implements CommandValidatorInterface
@@ -15,13 +15,11 @@ class NewArticleCommandValidator implements CommandValidatorInterface
     /**
      * @throws NewArticleValidationException
      */
-    public function validate(NewArticleCommand|CommandInterface $command): bool
+    public function validate(NewArticleCommand|CommandInterface $command): void
     {
         $violations = $this->validator->validate($command);
         if (count($violations) > 0) {
             throw new NewArticleValidationException((string)($violations));
         }
-
-        return true;
     }
 }

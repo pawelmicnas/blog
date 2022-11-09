@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Blog\Entity\Domain;
+namespace Blog\Domain\Entity;
 
 use Blog\Domain\Article\ArticleInterface;
-use Blog\Repository\Infrastructure\Persistence\ArticleRepository;
+use Blog\Infrastructure\Persistence\Doctrine\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article implements ArticleInterface
@@ -20,11 +21,9 @@ class Article implements ArticleInterface
     #[ORM\Column(type: "text", unique: false, nullable: false)]
     private string $content;
 
-    public function __construct(string $title, string $content)
-    {
-        $this->title = $title;
-        $this->content = $content;
-    }
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Gedmo\UploadableFilePath]
+    private string $image;
 
     public function getId(): int
     {
@@ -36,8 +35,31 @@ class Article implements ArticleInterface
         return $this->title;
     }
 
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+        return $this;
+    }
+
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+        return $this;
+    }
+
+    public function getImage(): string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+        return $this;
     }
 }

@@ -1,0 +1,11 @@
+administration_controllers:
+  resource: ../../src/UserInterface/Web/Controller/Administration/
+  type: attribute
+
+frontend_controllers:
+  resource: ../../src/UserInterface/Web/Controller/Rest/
+  type: attribute
+
+kernel:
+  resource: ../../src/Kernel.php
+  type: attribute
