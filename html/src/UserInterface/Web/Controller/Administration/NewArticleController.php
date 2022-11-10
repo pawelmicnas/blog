@@ -12,7 +12,7 @@ class NewArticleController extends AbstractController
     public function __construct(private readonly ArticleFactory $articleFactory)
     {}
 
-    #[Route('administration/article/new')]
+    #[Route('article/new')]
     public function __invoke(): Response
     {
         $article = $this->articleFactory->create();

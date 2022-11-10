@@ -1,3 +1,8 @@
-controllers:
-    resource: ../src/UserInterface/Web/Controller/
+administration:
+    resource: ../src/UserInterface/Web/Controller/Administration/
+    prefix: administration
+    type: attribute
+rest:
+    resource: ../src/UserInterface/Web/Controller/Rest/
+    prefix: rest
     type: attribute

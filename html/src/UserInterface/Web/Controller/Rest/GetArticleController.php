@@ -13,7 +13,7 @@ class GetArticleController extends AbstractController
 {
     public function __construct(private readonly QueryBusInterface $bus){}
 
-    #[Route('rest/articles/{id}')]
+    #[Route('articles/{id}')]
     public function __invoke(int $id): JsonResponse
     {
         $query = new FindArticleQuery($id);
