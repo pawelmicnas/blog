@@ -7,6 +7,7 @@ use Blog\Domain\Article\ArticleFactory;
 use Blog\Domain\Article\ArticleRepositoryInterface;
 use Blog\Domain\Bus\Command\CommandHandlerInterface;
 use Blog\Domain\Bus\Command\CommandInterface;
+use Blog\Infrastructure\Files\FileUploaderInterface;
 
 class NewArticleCommandHandler implements CommandHandlerInterface
 {
@@ -14,6 +15,7 @@ class NewArticleCommandHandler implements CommandHandlerInterface
         private readonly ArticleFactory $articleFactory,
         private readonly ArticleRepositoryInterface $articleRepository,
         private readonly NewArticleCommandValidator $validator,
+        private readonly FileUploaderInterface $uploader,
     ) {}
 
     /**
@@ -24,9 +26,10 @@ class NewArticleCommandHandler implements CommandHandlerInterface
         $this->validator->validate($command);
         $article = $this->articleFactory->create()
             ->setTitle($command->title)
-            ->setContent($command->content)
-            ->setImage('test.jpg');
+            ->setContent($command->content);
 
+        $filename = $this->uploader->upload($command->image);
+        $article->setImage($filename);
         $this->articleRepository->save($article);
     }
 }

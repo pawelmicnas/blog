@@ -27,7 +27,7 @@ class GetArticleController extends AbstractController
             'id' => $articleDto->getId(),
             'title' => $articleDto->getTitle(),
             'content' => $articleDto->getContent(),
-            'imagePath' => $articleDto->getImagePath(),
+            'imagePath' => $articleDto->getImage()->getFilename(),
         ]);
     }
 }

@@ -37,3 +37,9 @@ services:
         class: Blog\UserInterface\Cli\CreateNewArticleCommand
         tags:
             - { name: console.command }
+
+    # Infrastructure services
+    Blog\Infrastructure\Files\FilePathResolverInterface:
+        class: Blog\Infrastructure\Files\FilePathResolver
+        arguments:
+            $directory: '%kernel.project_dir%/%env(resolve:IMAGES_PATH)%'

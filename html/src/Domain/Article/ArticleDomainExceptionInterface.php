@@ -2,6 +2,8 @@
 
 namespace Blog\Domain\Article;
 
-interface ArticleDomainExceptionInterface
+use Throwable;
+
+interface ArticleDomainExceptionInterface extends Throwable
 {
 }

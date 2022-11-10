@@ -5,7 +5,6 @@ namespace Blog\Domain\Entity;
 use Blog\Domain\Article\ArticleInterface;
 use Blog\Infrastructure\Persistence\Doctrine\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article implements ArticleInterface
@@ -22,7 +21,6 @@ class Article implements ArticleInterface
     private string $content;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
-    #[Gedmo\UploadableFilePath]
     private string $image;
 
     public function getId(): int

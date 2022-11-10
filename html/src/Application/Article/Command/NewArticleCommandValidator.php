@@ -18,7 +18,7 @@ class NewArticleCommandValidator implements CommandValidatorInterface
     public function validate(NewArticleCommand|CommandInterface $command): void
     {
         $violations = $this->validator->validate($command);
-        if (count($violations) > 0) {
+        if ($violations->count() > 0) {
             throw new NewArticleValidationException((string)($violations));
         }
     }

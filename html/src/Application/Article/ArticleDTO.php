@@ -2,32 +2,54 @@
 
 namespace Blog\Application\Article;
 
+use Symfony\Component\HttpFoundation\File\File;
+
 class ArticleDTO implements ArticleDTOInterface
 {
     public function __construct(
-        private readonly int $id,
-        private readonly string $title,
-        private readonly string $content,
-        private readonly string $imagePath
+        private ?int $id = null,
+        private ?string $title = null,
+        private ?string $content = null,
+        private ?File $image = null
     ) {}
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function getContent(): string
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    public function getImagePath(): string
+    public function setContent(string $content): void
     {
-        return $this->imagePath;
+        $this->content = $content;
+    }
+
+    public function getImage(): ?File
+    {
+        return $this->image;
+    }
+
+    public function setImage(?File $image): void
+    {
+        $this->image = $image;
     }
 }
