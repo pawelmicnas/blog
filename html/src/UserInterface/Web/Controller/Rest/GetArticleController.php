@@ -8,26 +8,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class GetArticleController extends AbstractController
 {
-    public function __construct(private readonly QueryBusInterface $bus){}
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+        private readonly QueryBusInterface $bus
+    ) {}
 
-    #[Route('articles/{id}')]
-    public function __invoke(int $id): JsonResponse
+    #[Route('articles/{query}')]
+    #[ParamConverter('query', class: FindArticleQuery::class)]
+    public function __invoke(FindArticleQuery $query): JsonResponse
     {
-        $query = new FindArticleQuery($id);
         $response = $this->bus->ask($query);
         if (null === $response) {
             return new JsonResponse('Not found', Response::HTTP_NOT_FOUND);
         }
 
         $articleDto = $response->execute();
-        return new JsonResponse([
-            'id' => $articleDto->getId(),
-            'title' => $articleDto->getTitle(),
-            'content' => $articleDto->getContent(),
-            'imagePath' => $articleDto->getImage()->getFilename(),
-        ]);
+        return new JsonResponse($this->serializer->serialize($articleDto, JsonEncoder::FORMAT));
     }
 }
