@@ -6,4 +6,5 @@ interface FilePathResolverInterface
 {
     public function getDirectory(): string;
     public function getImagePath(string $filename): string;
+    public function getImageUrl(string $filename): string;
 }

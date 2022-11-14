@@ -29,6 +29,9 @@ services:
             - {
                  'Blog\Application\Article\Query\FindArticleQuery': [
                     '@Blog\Application\Article\Query\FindArticleQueryHandler'
+                 ],
+                 'Blog\Application\Article\Query\FindAllArticlesQuery': [
+                    '@Blog\Application\Article\Query\FindAllArticlesQueryHandler'
                  ]
             }
 
@@ -43,3 +46,4 @@ services:
         class: Blog\Infrastructure\Files\FilePathResolver
         arguments:
             $directory: '%kernel.project_dir%/%env(resolve:IMAGES_PATH)%'
+            $domain: '%env(resolve:IMAGES_URL)%'

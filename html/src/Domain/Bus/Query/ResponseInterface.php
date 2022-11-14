@@ -2,9 +2,9 @@
 
 namespace Blog\Domain\Bus\Query;
 
-use Blog\Domain\Bus\DTOInterface;
+use Blog\Domain\ReadModel\DataObjectInterface;
 
 interface ResponseInterface
 {
-    public function execute(): DTOInterface;
+    public function execute(): DataObjectInterface;
 }

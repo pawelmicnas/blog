@@ -2,42 +2,35 @@
 
 namespace Blog\Application\Article\Query;
 
-use Blog\Domain\Assembler\Adapter\ArrayToDtoInterface;
+use Blog\Application\Article\ReadModel\ArticleDataObjectFactory;
 use Blog\Domain\Bus\Query\QueryHandlerInterface;
 use Blog\Domain\Bus\Query\QueryInterface;
 use Blog\Domain\Bus\Query\ResponseInterface;
 use Blog\Infrastructure\Files\FilePathResolverInterface;
-use Blog\Infrastructure\Persistence\Doctrine\Connection;
+use Blog\Infrastructure\Persistence\Doctrine\MySQL\FindById;
 use Doctrine\DBAL\Exception;
-use Symfony\Component\HttpFoundation\File\File;
 
 class FindArticleQueryHandler implements QueryHandlerInterface
 {
     public function __construct(
-        private readonly ArrayToDtoInterface $arrayToDto,
-        private readonly Connection $connection,
+        private readonly ArticleDataObjectFactory $factory,
+        private readonly FindById $findById,
         private readonly FilePathResolverInterface $filePathResolver,
     ) {}
 
     /**
      * @throws Exception
      */
-    public function __invoke(QueryInterface $query): ResponseInterface|FindArticleResponse|null
+    public function __invoke(FindArticleQuery|QueryInterface $query): ResponseInterface|FindArticleResponse|null
     {
-        $connection = $this->connection->getConnection();
-        $sql = "SELECT id, title, content, image FROM article WHERE id = {$query->id};";
-        $result = $connection->executeQuery($sql)->fetchAssociative();
-        if (false === $result) {
-            return null;
-        }
-
+        $result = $this->findById->execute($query->id, 'article');
+        $imagePath = null;
         if (isset($result['image'])) {
-            $imagePath = $this->filePathResolver->getImagePath($result['image']);
-            $result['image'] = new File($imagePath);
+            $imagePath = $this->filePathResolver->getImageUrl($result['image']);
         }
 
         return new FindArticleResponse(
-            $this->arrayToDto->adapt($result)
+            $this->factory->create($result['id'], $result['title'], $result['content'], $imagePath)
         );
     }
 }

@@ -2,16 +2,16 @@
 
 namespace Blog\Application\Article\Query;
 
-use Blog\Application\Article\ArticleDTOInterface;
-use Blog\Domain\Bus\DTOInterface;
+use Blog\Application\Article\ReadModel\ArticleDataObjectInterface;
 use Blog\Domain\Bus\Query\ResponseInterface;
+use Blog\Domain\ReadModel\DataObjectInterface;
 
 class FindArticleResponse implements ResponseInterface
 {
-    public function __construct(private readonly ArticleDTOInterface $articleDTO){}
+    public function __construct(private readonly ArticleDataObjectInterface $article){}
 
-    public function execute(): DTOInterface
+    public function execute(): DataObjectInterface
     {
-        return $this->articleDTO;
+        return $this->article;
     }
 }
