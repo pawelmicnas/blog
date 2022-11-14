@@ -2,7 +2,7 @@
 
 namespace Blog\Infrastructure\Files;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FileUploader implements FileUploaderInterface
@@ -12,9 +12,9 @@ class FileUploader implements FileUploaderInterface
         private readonly SluggerInterface $slugger
     ) {}
 
-    public function upload(UploadedFile $file): string
+    public function upload(File $file): string
     {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $originalFilename = pathinfo($file->getPathname(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
         $file->move($this->filePathResolver->getDirectory(), $fileName);
@@ -24,6 +24,6 @@ class FileUploader implements FileUploaderInterface
 
     public function getTargetDirectory(): string
     {
-        return $this->getTargetDirectory();
+        return $this->filePathResolver->getDirectory();
     }
 }

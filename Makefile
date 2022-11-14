@@ -11,3 +11,8 @@ tests:
 	@docker-compose exec php php ./vendor/bin/phpunit
 correct-permissions:
 	sudo chmod -R 777 html/public/media
+demo:
+	@make start
+	@make tests
+	@docker-compose exec php bin/console blog:article:create "Vestibulum sed arcu non odio" "examples/article.txt" "examples/test-image.jpg"
+	@echo "Test article added to database. Look at http://localhost:8080/rest/articles"
