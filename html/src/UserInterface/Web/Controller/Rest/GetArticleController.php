@@ -12,14 +12,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class GetArticleController extends AbstractController
 {
-    public function __construct(private readonly QueryBusInterface $bus)
-    {}
-
     #[Route('articles/{query}')]
     #[ParamConverter('query', class: FindArticleQuery::class)]
-    public function __invoke(FindArticleQuery $query): JsonResponse
+    public function __invoke(FindArticleQuery $query, QueryBusInterface $bus): JsonResponse
     {
-        $response = $this->bus->ask($query);
+        $response = $bus->ask($query);
         if (null === $response) {
             return new JsonResponse('Not found', Response::HTTP_NOT_FOUND);
         }

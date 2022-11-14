@@ -12,16 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GetArticlesController extends AbstractController
 {
-    public function __construct(private readonly QueryBusInterface $bus)
-    {}
-
     #[Route('articles', methods: 'GET')]
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(Request $request, QueryBusInterface $bus): JsonResponse
     {
         $page = (int)$request->query->get('page', 1);
         $limit = (int)$request->query->get('limit', 5);
         $query = new FindAllArticlesQuery($page, $limit);
-        $response = $this->bus->ask($query);
+        $response = $bus->ask($query);
         if (null === $response) {
             return new JsonResponse('Not found', Response::HTTP_NOT_FOUND);
         }
