@@ -24,6 +24,10 @@ class FindArticleQueryHandler implements QueryHandlerInterface
     public function __invoke(FindArticleQuery|QueryInterface $query): ResponseInterface|FindArticleResponse|null
     {
         $result = $this->findById->execute($query->id, 'article');
+        if ($result === null) {
+            return null;
+        }
+
         $imagePath = null;
         if (isset($result['image'])) {
             $imagePath = $this->filePathResolver->getImageUrl($result['image']);
