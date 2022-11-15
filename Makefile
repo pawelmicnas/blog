@@ -6,6 +6,8 @@ init:
 	cp .env.dist .env
 	make start
 	@docker-compose exec php composer install
+	@docker-compose exec php bin/console doctrine:schema:drop --force
+	@docker-compose exec php bin/console doctrine:schema:create
 	@docker-compose exec php bin/console cache:clear
 tests:
 	@docker-compose exec php php ./vendor/bin/phpunit
