@@ -13,9 +13,9 @@ class DTOToArticleCommand implements DTOToCommandInterface
     public function adapt(DTOInterface|ArticleDTO $dto): CommandInterface|NewArticleCommand
     {
         return new NewArticleCommand(
-            $dto->getTitle(),
-            $dto->getContent(),
-            $dto->getImage()
+            $dto->title,
+            $dto->content,
+            $dto->image
         );
     }
 }

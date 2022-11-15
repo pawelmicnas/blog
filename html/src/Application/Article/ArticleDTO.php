@@ -2,54 +2,41 @@
 
 namespace Blog\Application\Article;
 
+use Blog\Domain\Bus\DTOInterface;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use Blog\Infrastructure\Validator\Constraints as BlogAssert;
 
-class ArticleDTO implements ArticleDTOInterface
+class ArticleDTO implements DTOInterface
 {
-    public function __construct(
-        private ?int $id = null,
-        private ?string $title = null,
-        private ?string $content = null,
-        private ?File $image = null
-    ) {}
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 10, max: 80)]
+    #[BlogAssert\ContainsForbiddenHTMLTags]
+    public string $title;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 20)]
+    #[BlogAssert\ContainsForbiddenHTMLTags]
+    public string $content;
 
-    public function setId(?int $id): void
-    {
-        $this->id = $id;
-    }
+    #[Assert\File(
+        maxSize: "1M",
+        mimeTypes: ["image/jpeg", "image/jpg"]
+    )]
+    public File $image;
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    public function getContent(): ?string
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): void
-    {
-        $this->content = $content;
-    }
-
-    public function getImage(): ?File
+    public function getImage(): File
     {
         return $this->image;
-    }
-
-    public function setImage(?File $image): void
-    {
-        $this->image = $image;
     }
 }
