@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Blog\Tests\Application\Article\Command;
+namespace Blog\Tests\Unit\Application\Article\Command;
 
 use Blog\Application\Article\Command\NewArticleCommandValidator;
 use Blog\Application\Article\Exception\NewArticleValidationException;
