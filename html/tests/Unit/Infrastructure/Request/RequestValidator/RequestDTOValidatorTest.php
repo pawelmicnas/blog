@@ -13,6 +13,7 @@ class RequestDTOValidatorTest extends KernelTestCase
 {
     private ValidatorInterface&MockObject $validatorMock;
     private MockObject&ConstraintViolationListInterface $violationsMock;
+    private RequestDTOValidator $subject;
 
     protected function setUp(): void
     {

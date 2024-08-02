@@ -15,8 +15,11 @@ class GetArticlesController extends AbstractController
     #[Route('articles', methods: 'GET')]
     public function __invoke(Request $request, QueryBusInterface $bus): JsonResponse
     {
-        $page = (int)$request->query->get('page', 1);
-        $limit = (int)$request->query->get('limit', 5);
+        [$page, $limit] = [
+            (int)$request->query->get('page', 1),
+            (int)$request->query->get('limit', 5)
+        ];
+
         $query = new FindAllArticlesQuery($page, $limit);
         $response = $bus->ask($query);
         if (null === $response) {
