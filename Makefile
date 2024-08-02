@@ -19,3 +19,4 @@ demo:
 	@make tests
 	@docker-compose exec php bin/console blog:article:create "Vestibulum sed arcu non odio" "examples/article.txt" "examples/test-image.jpg"
 	@echo "Test article added to database. Look at http://localhost:8080/rest/articles"
+	@echo "You can also add next articles using URL: http://localhost:8080/administration/article/new"
