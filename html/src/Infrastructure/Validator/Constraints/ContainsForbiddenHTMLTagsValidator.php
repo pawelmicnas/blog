@@ -13,7 +13,7 @@ class ContainsForbiddenHTMLTagsValidator extends ConstraintValidator
     private const TAG_PATTERN_FORBIDDEN = '/<[^>]*>/';
     private const TAG_PATTERN_ALLOWED = '<%s[^>]*>|<\/%s[^>]*>';
 
-    public function validate(mixed $value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof ContainsForbiddenHTMLTags) {
             throw new UnexpectedTypeException($constraint, ContainsForbiddenHTMLTags::class);

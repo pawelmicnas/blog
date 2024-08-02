@@ -33,7 +33,7 @@ class NewArticleController extends AbstractController
             return $this->redirectToRoute('article_success');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'administration/article/new.html.twig', [
                 'form' => $form
             ]
